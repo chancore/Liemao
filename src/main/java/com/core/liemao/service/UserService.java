@@ -12,6 +12,18 @@ public interface UserService {
 	 * 发送短信验证码
 	 * @param user
 	 */
-	public void sendVerificationCode(User user) throws Exception;
+	public String sendVerificationCode(User user) throws Exception;
+	
+	/**
+	 * 注册用户
+	 * @param user
+	 * @return
+	 */
+	public User register(User user) throws Exception;
+	/**
+	 * 验证短信
+	 * @param user
+	 */
+	public void verificationCode(User user) throws Exception;
 
 }

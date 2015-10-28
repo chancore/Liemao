@@ -53,9 +53,14 @@ public class ErrorConstant {
     public static final ErrorConstant DB_ERROR = new ErrorConstant(667, "数据库错误");
     public static final ErrorConstant SERVER_BUSY = new ErrorConstant(555, "服务器繁忙");
     public static final ErrorConstant PARAM_ERROR = new ErrorConstant(666, "参数错误");
-    public static final ErrorConstant REQUEST_FAIL_ERROR = new ErrorConstant(668, "服务器错误,处理失败");
+    public static final ErrorConstant REQUEST_FAIL_ERROR = new ErrorConstant(668, "请求失败");
     public static final ErrorConstant PHONE_NUMBER_NOT_NULL = new ErrorConstant(100001, "手机号码不能为空");
     public static final ErrorConstant PHONE_NUMBER_FORMAT_ERROR = new ErrorConstant(100002, "手机号码格式错误");
+    public static final ErrorConstant VERIFICATION_CODE_FORMAT_ERROR = new ErrorConstant(100003, "验证码不能为空");
+    public static final ErrorConstant VERIFICATION_CODE_ERROR = new ErrorConstant(100004, "验证码错误");
+    public static final ErrorConstant USER_ALREADY_EXISTS = new ErrorConstant(100005, "用户已经存在");
+    public static final ErrorConstant WEIXIN_USER_ALREADY_EXISTS = new ErrorConstant(100006, "该微信用户已经存在");
+    public static final ErrorConstant WEIXINID_NUMBER_NOT_NULL = new ErrorConstant(100007, "微信ID不能为空");
  
     
 }
