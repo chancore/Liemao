@@ -61,6 +61,10 @@ public class ErrorConstant {
     public static final ErrorConstant USER_ALREADY_EXISTS = new ErrorConstant(100005, "用户已经存在");
     public static final ErrorConstant WEIXIN_USER_ALREADY_EXISTS = new ErrorConstant(100006, "该微信用户已经存在");
     public static final ErrorConstant WEIXINID_NUMBER_NOT_NULL = new ErrorConstant(100007, "微信ID不能为空");
+    public static final ErrorConstant FRONT_IMG_NOT_NULL = new ErrorConstant(100008, "请上传正面图片");
+    public static final ErrorConstant BACK_IMG_NOT_NULL = new ErrorConstant(100009, "请上传反面图片");
+    public static final ErrorConstant USER_ID_NOT_NULL = new ErrorConstant(100010, "用户ID不能为空");
+    public static final ErrorConstant FILE_SAVE_FAIL = new ErrorConstant(100011, "图片保存失败");
  
     
 }
