@@ -1,11 +1,17 @@
 package com.core.liemao.persistence;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
+import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
+import com.core.liemao.persistence.provider.UserProvider;
 
 /** 
  * @author 作者 : chenxuan
@@ -51,4 +57,21 @@ public interface UserMapper {
 	 */
 	@Select("select * from t_user where phone = #{weixinId}")
 	public User getUserForWeixinId(String weixinId);
+	
+	/**
+	 * 更新用户信息
+	 * @param user
+	 * @return
+	 */
+	@UpdateProvider(type=UserProvider.class,method="updateUserInfo")
+	public Integer updateUserInfo(User user);
+	
+	/**
+	 * 更新用户信息
+	 * @param user
+	 * @return
+	 */
+	@SelectProvider(type=UserProvider.class,method="getRegion")
+	public List<Region> getRegion(Region region);
+	
 }

@@ -1,5 +1,8 @@
 package com.core.liemao.service;
 
+import java.util.List;
+
+import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 
 /** 
@@ -25,5 +28,18 @@ public interface UserService {
 	 * @param user
 	 */
 	public void verificationCode(User user) throws Exception;
+	/**
+	 * 更新用户信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public User updateUserInfo(User user) throws Exception;
+	/**
+	 * 获取地区信息
+	 * @param region
+	 * @return
+	 */
+	public List<Region> getRegion(Region region) throws Exception ;
 
 }

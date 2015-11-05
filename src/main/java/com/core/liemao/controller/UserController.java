@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.response.Result;
+import com.core.liemao.domain.response.ResultList;
 import com.core.liemao.domain.response.ResultObject;
 import com.core.liemao.service.UserService;
 
@@ -73,8 +75,22 @@ public class UserController {
 	@ResponseBody
 	public ResultObject<User> updateInfo(@RequestBody User user) throws Exception{
 		ResultObject<User> result = new ResultObject<User>();
-		user = userService.register(user);
+		user = userService.updateUserInfo(user);
 		result.setDomain(user);
+		return result;
+	}
+	
+	/**
+	 * 获取地区信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/get/region",method=RequestMethod.GET)
+	@ResponseBody
+	public ResultList<Region> updateInfo(Region region) throws Exception{
+		ResultList<Region> result = new ResultList<Region>();
+		result.setItemList(userService.getRegion(region));
 		return result;
 	}
 

@@ -65,6 +65,8 @@ public class ErrorConstant {
     public static final ErrorConstant BACK_IMG_NOT_NULL = new ErrorConstant(100009, "请上传反面图片");
     public static final ErrorConstant USER_ID_NOT_NULL = new ErrorConstant(100010, "用户ID不能为空");
     public static final ErrorConstant FILE_SAVE_FAIL = new ErrorConstant(100011, "图片保存失败");
+    public static final ErrorConstant PARENT_ID_NOT_NULL = new ErrorConstant(100012, "parentId不能为空");
+    public static final ErrorConstant TYPE_NOT_NULL = new ErrorConstant(100013, "type不能为空");
  
     
 }

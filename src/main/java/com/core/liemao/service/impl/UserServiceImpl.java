@@ -1,5 +1,7 @@
 package com.core.liemao.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
 import com.core.liemao.domain.exception.ErrorConstant;
@@ -100,6 +103,26 @@ public class UserServiceImpl implements UserService{
 		if(verificationCode == null){
 			throw new ServerException(ErrorConstant.VERIFICATION_CODE_ERROR.getErrorCode(), ErrorConstant.VERIFICATION_CODE_ERROR.getErrorMessageToUser());
 		}
+	}
+
+	@Override
+	public User updateUserInfo(User user) throws Exception {
+	    if(null == user.getId()){
+	    	throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
+	    }
+	    userMapper.updateUserInfo(user);
+	    return user;
+	}
+
+	@Override
+	public List<Region> getRegion(Region region) throws Exception {
+		if(region.getParentId() == null){
+			throw new ServerException(ErrorConstant.PARENT_ID_NOT_NULL.getErrorCode(), ErrorConstant.PARENT_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		if(region.getType() == null){
+			throw new ServerException(ErrorConstant.TYPE_NOT_NULL.getErrorCode(), ErrorConstant.TYPE_NOT_NULL.getErrorMessageToUser());
+		}
+		return userMapper.getRegion(region);
 	}
 	
 	
