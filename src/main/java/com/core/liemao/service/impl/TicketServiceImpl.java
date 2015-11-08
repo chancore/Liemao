@@ -1,10 +1,10 @@
 package com.core.liemao.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.core.liemao.domain.Ticket;
 import com.core.liemao.domain.exception.ErrorConstant;
 import com.core.liemao.domain.request.TicketReq;
@@ -30,11 +30,18 @@ public class TicketServiceImpl implements TicketService{
 	public Ticket updateTicket(TicketReq ticketReq) throws Exception{
 		MultipartFile frontImgFile = ticketReq.getFrontImgFile();
 		MultipartFile backImgFile = ticketReq.getBackImgFile();
+		
 		if(null == frontImgFile ){
 			throw new ServerException(ErrorConstant.FRONT_IMG_NOT_NULL.getErrorCode(), ErrorConstant.FRONT_IMG_NOT_NULL.getErrorMessageToUser());
 		}
 		if(null == backImgFile ){
 			throw new ServerException(ErrorConstant.BACK_IMG_NOT_NULL.getErrorCode(), ErrorConstant.BACK_IMG_NOT_NULL.getErrorMessageToUser());
+		}
+		if(frontImgFile.getSize() > 5121000){
+			throw new ServerException(ErrorConstant.FRONT_IMG_NOT_NULL.getErrorCode(), "正面图片大于5M,请重新选择.");
+		}
+		if(backImgFile.getSize() > 5121000){
+			throw new ServerException(ErrorConstant.FRONT_IMG_NOT_NULL.getErrorCode(), "背面图片大于5M,请重新选择.");
 		}
 		if(ticketReq.getUserId() == null || ticketReq.getUserId() == 0){
 			throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
@@ -52,4 +59,41 @@ public class TicketServiceImpl implements TicketService{
 		return ticket;
 	}
 
+	@Override
+	public Ticket verifyTicket(Ticket ticketReq) throws Exception {
+		if(ticketReq.getId() == null){
+			throw new ServerException(ErrorConstant.TICKET_ID_NOT_NULL.getErrorCode(), ErrorConstant.TICKET_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		if(ticketReq.getVerifyResult() == null){
+			throw new ServerException(ErrorConstant.TICKET_VERIFY_RESULT_NOT_NULL.getErrorCode(), ErrorConstant.TICKET_VERIFY_RESULT_NOT_NULL.getErrorMessageToUser());
+		}
+		if(ticketReq.getVerifyResult() == 2 && ticketReq.getReason() == null){
+			throw new ServerException(ErrorConstant.TICKET_VERIFY_RESULT_FALSE_ROASON_NULL.getErrorCode(), ErrorConstant.TICKET_VERIFY_RESULT_FALSE_ROASON_NULL.getErrorMessageToUser());
+		}
+		
+		ticketMapper.verifyTicket(ticketReq);
+		
+		return ticketReq;
+	}
+
+	@Override
+	public List<Ticket> verifyList(Ticket ticketReq) throws Exception {
+		if(ticketReq.getUserId() == null){
+			throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		return ticketMapper.verifyList(ticketReq);
+	}
+
+	@Override
+	public void markRead(Ticket ticketReq) throws Exception {
+		ticketMapper.markRead(ticketReq);
+	}
+
+	@Override
+	public Ticket detail(Ticket ticketReq) throws Exception {
+		if(ticketReq.getId() == null){
+			throw new ServerException(ErrorConstant.TICKET_ID_NOT_NULL.getErrorCode(), ErrorConstant.TICKET_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		return ticketMapper.detail(ticketReq);
+	}
 }

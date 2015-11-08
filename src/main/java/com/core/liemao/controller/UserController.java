@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.response.Result;
@@ -18,7 +19,7 @@ import com.core.liemao.service.UserService;
 /** 
  * @author 作者 : chenxuan
  * @version 创建时间：2015年10月20日 下午6:16:33 
- * 类说明 
+ * 类说明
  */
 @Controller
 @RequestMapping(value="/user",produces="application/json;charset=UTF-8")
@@ -28,16 +29,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * 用户注册
+	 *  微信绑定
 	 * @param user
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/register",method=RequestMethod.POST)
+	@RequestMapping(value="/binding")
 	@ResponseBody
-	public ResultObject<User> register(@RequestBody User user) throws Exception{
+	public ResultObject<User> binding(User user) throws Exception{
 		ResultObject<User> result = new ResultObject<User>();
-		user = userService.register(user);
+		user = userService.binding(user);
 		result.setDomain(user);
 		return result;
 	}
@@ -47,9 +48,9 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/send/verification_code",method=RequestMethod.POST)
+	@RequestMapping(value="/send/verification_code")
 	@ResponseBody
-	public ResultObject<String> sendVerificationCode(@RequestBody User user) throws Exception{
+	public ResultObject<String> sendVerificationCode(User user) throws Exception{
 		ResultObject<String> result = new ResultObject<String>();
 		String code  = userService.sendVerificationCode(user);
 		result.setDomain(code);
@@ -59,7 +60,7 @@ public class UserController {
 	 * 验证短信验证码
 	 * @return
 	 */
-	@RequestMapping(value="/verification_code",method=RequestMethod.POST)
+	@RequestMapping(value="/verification_code")
 	@ResponseBody
 	public Result verificationCode(){
 		Result result = new Result();
@@ -71,9 +72,9 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/update_info",method=RequestMethod.POST)
+	@RequestMapping(value="/update_info")
 	@ResponseBody
-	public ResultObject<User> updateInfo(@RequestBody User user) throws Exception{
+	public ResultObject<User> updateInfo(User user) throws Exception{
 		ResultObject<User> result = new ResultObject<User>();
 		user = userService.updateUserInfo(user);
 		result.setDomain(user);
@@ -86,12 +87,94 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/get/region",method=RequestMethod.GET)
+	@RequestMapping(value="/get/region")
 	@ResponseBody
 	public ResultList<Region> updateInfo(Region region) throws Exception{
 		ResultList<Region> result = new ResultList<Region>();
 		result.setItemList(userService.getRegion(region));
 		return result;
+	}
+	/**
+	 * 获取用户信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/get_info")
+	@ResponseBody
+	public ResultObject<User> getUserInfo(User user) throws Exception{
+		ResultObject<User> result = new ResultObject<User>();
+		result.setDomain(userService.getUserInfo(user));
+		return result;
+	}
+	
+	/**
+	 * 用户添加反馈
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/feedback/add")
+	@ResponseBody
+	public ResultObject<Feedback> feedbackAdd(Feedback feedback) throws Exception{
+		ResultObject<Feedback> result = new ResultObject<Feedback>();
+		result.setDomain(userService.feedbackAdd(feedback));
+		return result;
+	}
+	
+	/**
+	 * 用户添加反馈
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/feedback/list")
+	@ResponseBody
+	public ResultList<Feedback> feedbackList(Feedback feedback) throws Exception{
+		ResultList<Feedback> result = new ResultList<Feedback>();
+		result.setItemList(userService.feedbackList(feedback));
+		return result;
+	}
+	
+	/**
+	 * 回复用户反馈
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/feedback/reply")
+	@ResponseBody
+	public ResultObject<Feedback> feedbackReply(Feedback feedback) throws Exception{
+		ResultObject<Feedback> result = new ResultObject<Feedback>();
+		result.setDomain(userService.feedbackReply(feedback));
+		return result;
+	}
+	
+	/**
+	 * 用户反馈详情
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/feedback/detail")
+	@ResponseBody
+	public ResultObject<Feedback> feedbackDetail(Feedback feedback) throws Exception{
+		ResultObject<Feedback> result = new ResultObject<Feedback>();
+		result.setDomain(userService.feedbackDetail(feedback));
+		return result;
+	}
+	
+	/**
+	 * 用户反馈详情
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/feedback/mark_read")
+	@ResponseBody
+	public Result feedbackMarkRead(Feedback feedback) throws Exception{
+		userService.feedbackMarkRead(feedback);
+		return new Result();
 	}
 
 }

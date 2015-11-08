@@ -1,11 +1,14 @@
 package com.core.liemao.persistence.provider;
 
+import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
+import com.core.liemao.domain.Ticket;
 import com.core.liemao.domain.User;
 
 public class UserProvider {
     
-    public String updateUserInfo(User user){
+    
+	public String updateUserInfo(User user){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("update t_user set last_modify_time = current_timestamp()");
 		if(user.getName() != null){
@@ -48,5 +51,15 @@ public class UserProvider {
     	 append(" from t_system_city where class_type = #{type} and class_parent_id = #{parentId}");
     	return buffer.toString();
     }
+    
+    public String feedbackList(Feedback feedback){
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("select * from t_feedback where user_id = #{userId} order by create_time desc ");
+    	if(feedback.getLimit() != null){
+    		buffer.append(" limit #{start},#{limit}");
+    	}
+    	return buffer.toString();
+    }
+	
 
 }

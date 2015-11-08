@@ -2,6 +2,7 @@ package com.core.liemao.service;
 
 import java.util.List;
 
+import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 
@@ -18,11 +19,11 @@ public interface UserService {
 	public String sendVerificationCode(User user) throws Exception;
 	
 	/**
-	 * 注册用户
+	 * 微信绑定
 	 * @param user
 	 * @return
 	 */
-	public User register(User user) throws Exception;
+	public User binding(User user) throws Exception;
 	/**
 	 * 验证短信
 	 * @param user
@@ -41,5 +42,43 @@ public interface UserService {
 	 * @return
 	 */
 	public List<Region> getRegion(Region region) throws Exception ;
-
+	/**
+	 * 获取用户信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public User getUserInfo(User user) throws Exception;
+	/**
+	 * 用户添加反馈
+	 * @param feedback
+	 * @return
+	 * @throws Exception
+	 */
+	public Feedback feedbackAdd(Feedback feedback) throws Exception;
+	/**
+	 * 反馈列表
+	 * @param feedback
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Feedback> feedbackList(Feedback feedback) throws Exception;
+	/**
+	 * 回复用户反馈
+	 * @param feedback
+	 * @return
+	 */
+	public Feedback feedbackReply(Feedback feedback);
+	/**
+	 *  用户反馈详情
+	 * @param feedback
+	 * @return
+	 */
+	public Feedback feedbackDetail(Feedback feedback);
+	/**
+	 *  用户反馈标记为已读
+	 * @param feedback
+	 * @return
+	 */
+	public void feedbackMarkRead(Feedback feedback);
 }

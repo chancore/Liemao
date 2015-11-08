@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService{
 	private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Override
-	public User register(User user) throws Exception{
+	public User binding(User user) throws Exception{
 		if(null == user.getCode() || user.getCode().trim().isEmpty()){
 			throw new ServerException(ErrorConstant.VERIFICATION_CODE_FORMAT_ERROR.getErrorCode(), ErrorConstant.VERIFICATION_CODE_FORMAT_ERROR.getErrorMessageToUser());
 		}
@@ -42,23 +43,33 @@ public class UserServiceImpl implements UserService{
 		if(null == user.getWeixinId() || user.getWeixinId().trim().isEmpty()){
 			throw new ServerException(ErrorConstant.WEIXINID_NUMBER_NOT_NULL.getErrorCode(), ErrorConstant.WEIXINID_NUMBER_NOT_NULL.getErrorMessageToUser());
 		}
-		VerificationCode verificationCode = new VerificationCode();
-		verificationCode.setCode(user.getCode());
-		verificationCode.setPhone(user.getPhone());
-		VerificationCode vCode = userMapper.verificationCode(verificationCode);
-		if(null == vCode){
-			throw new ServerException(ErrorConstant.VERIFICATION_CODE_ERROR.getErrorCode(), ErrorConstant.VERIFICATION_CODE_ERROR.getErrorMessageToUser());
-		}
-		//查询用户是否已经存在
-		User userData = userMapper.getUserForPhone(user.getPhone());
-		if(userData != null){
-			throw new ServerException(ErrorConstant.USER_ALREADY_EXISTS.getErrorCode(), ErrorConstant.USER_ALREADY_EXISTS.getErrorMessageToUser());
-		}
 		User weixinUser = userMapper.getUserForWeixinId(user.getWeixinId());
-		if(weixinUser != null){
-			throw new ServerException(ErrorConstant.WEIXIN_USER_ALREADY_EXISTS.getErrorCode(), ErrorConstant.WEIXIN_USER_ALREADY_EXISTS.getErrorMessageToUser());
+		if(null == weixinUser){
+			VerificationCode verificationCode = new VerificationCode();
+			verificationCode.setCode(user.getCode());
+			verificationCode.setPhone(user.getPhone());
+			VerificationCode vCode = userMapper.verificationCode(verificationCode);
+			if(null == vCode){
+				throw new ServerException(ErrorConstant.VERIFICATION_CODE_ERROR.getErrorCode(), ErrorConstant.VERIFICATION_CODE_ERROR.getErrorMessageToUser());
+			}
+			User userPhone = userMapper.getUserForPhone(user.getPhone());
+			if(null != userPhone){
+				throw new ServerException(ErrorConstant.PHONE_ALREADY_EXISTS.getErrorCode(), ErrorConstant.PHONE_ALREADY_EXISTS.getErrorMessageToUser());
+			}
+			userMapper.registerUser(user);
+		}else {
+			if(!weixinUser.getPhone().equals(user.getPhone())){
+				throw new ServerException(ErrorConstant.BOODING_FAIL.getErrorCode(),"该微信号已经绑定尾号为"+weixinUser.getPhone().substring(7, 11)+"的手机");
+			}
+			VerificationCode verificationCode = new VerificationCode();
+			verificationCode.setCode(user.getCode());
+			verificationCode.setPhone(user.getPhone());
+			VerificationCode vCode = userMapper.verificationCode(verificationCode);
+			if(null == vCode){
+				throw new ServerException(ErrorConstant.VERIFICATION_CODE_ERROR.getErrorCode(), ErrorConstant.VERIFICATION_CODE_ERROR.getErrorMessageToUser());
+			}
 		}
-		userMapper.registerUser(user);
+	    user = userMapper.getUserForWeixinId(user.getWeixinId());
 		return user;
 	}
 
@@ -71,7 +82,6 @@ public class UserServiceImpl implements UserService{
 			throw new ServerException(ErrorConstant.PHONE_NUMBER_FORMAT_ERROR.getErrorCode(), ErrorConstant.PHONE_NUMBER_FORMAT_ERROR.getErrorMessageToUser());
 		}
 		String code = StringEx.getRandomInteger(4);
-		logger.info(code);
 		String result = YunpianSmsUtil.sendVerificationCode(code, user.getPhone());
 		JSONObject resultObject = JSON.parseObject(result);
 		Integer sendCode = Integer.parseInt(resultObject.get("code").toString());
@@ -83,7 +93,6 @@ public class UserServiceImpl implements UserService{
 		verificationCode.setPhone(user.getPhone());
 		verificationCode.setCode(code);
 		userMapper.addVerificationCode(verificationCode);
-		
 		return code;
 	}
 
@@ -124,7 +133,62 @@ public class UserServiceImpl implements UserService{
 		}
 		return userMapper.getRegion(region);
 	}
+
+	@Override
+	public User getUserInfo(User user) throws Exception {
+		if(user.getId() == null){
+			throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		return userMapper.getUserById(user.getId());
+	}
+
+	@Override
+	public Feedback feedbackAdd(Feedback feedback) throws Exception {
+		if(feedback.getContent() == null){
+			throw new ServerException(ErrorConstant.FEEDBACK_CONTENT_NOT_NULL.getErrorCode(), ErrorConstant.FEEDBACK_CONTENT_NOT_NULL.getErrorMessageToUser());
+		}
+		if(feedback.getUserId() == null){
+			throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		userMapper.feedbackAdd(feedback);
+		return feedback;
+	}
+
+	@Override
+	public List<Feedback> feedbackList(Feedback feedback) throws Exception {
+		if(feedback.getUserId() == null){
+			throw new ServerException(ErrorConstant.USER_ID_NOT_NULL.getErrorCode(), ErrorConstant.USER_ID_NOT_NULL.getErrorMessageToUser());
+		}
+		return userMapper.feedbackList(feedback);
+	}
+
+	@Override
+	public Feedback feedbackReply(Feedback feedback) {
+		if(feedback.getId() == null){
+			throw new ServerException(ErrorConstant.ID_NOT_NULL.getErrorCode(), ErrorConstant.ID_NOT_NULL.getErrorMessageToUser());
+		}
+		if(feedback.getFeedback() == null){
+			throw new ServerException(ErrorConstant.FEEDBACK_NOT_NULL.getErrorCode(), ErrorConstant.FEEDBACK_NOT_NULL.getErrorMessageToUser());
+		}
+		userMapper.feedbackReply(feedback);
+		return feedback;
+	}
 	
+	@Override
+	public Feedback feedbackDetail(Feedback feedback) {
+		if(feedback.getId() == null){
+			throw new ServerException(ErrorConstant.ID_NOT_NULL.getErrorCode(), ErrorConstant.ID_NOT_NULL.getErrorMessageToUser());
+		}
+		
+		return userMapper.feedbackDetail(feedback);
+	}
 	
+	@Override
+	public void feedbackMarkRead(Feedback feedback) {
+		if(feedback.getId() == null){
+			throw new ServerException(ErrorConstant.ID_NOT_NULL.getErrorCode(), ErrorConstant.ID_NOT_NULL.getErrorMessageToUser());
+		}
+		userMapper.feedbackMarkRead(feedback);
+	}
 	
 }

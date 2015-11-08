@@ -57,7 +57,7 @@ public class ErrorConstant {
     public static final ErrorConstant PHONE_NUMBER_NOT_NULL = new ErrorConstant(100001, "手机号码不能为空");
     public static final ErrorConstant PHONE_NUMBER_FORMAT_ERROR = new ErrorConstant(100002, "手机号码格式错误");
     public static final ErrorConstant VERIFICATION_CODE_FORMAT_ERROR = new ErrorConstant(100003, "验证码不能为空");
-    public static final ErrorConstant VERIFICATION_CODE_ERROR = new ErrorConstant(100004, "验证码错误");
+    public static final ErrorConstant VERIFICATION_CODE_ERROR = new ErrorConstant(100004, "验证码错误或已过期");
     public static final ErrorConstant USER_ALREADY_EXISTS = new ErrorConstant(100005, "用户已经存在");
     public static final ErrorConstant WEIXIN_USER_ALREADY_EXISTS = new ErrorConstant(100006, "该微信用户已经存在");
     public static final ErrorConstant WEIXINID_NUMBER_NOT_NULL = new ErrorConstant(100007, "微信ID不能为空");
@@ -67,6 +67,14 @@ public class ErrorConstant {
     public static final ErrorConstant FILE_SAVE_FAIL = new ErrorConstant(100011, "图片保存失败");
     public static final ErrorConstant PARENT_ID_NOT_NULL = new ErrorConstant(100012, "parentId不能为空");
     public static final ErrorConstant TYPE_NOT_NULL = new ErrorConstant(100013, "type不能为空");
+    public static final ErrorConstant BOODING_FAIL = new ErrorConstant(100014, "绑定失败");
+    public static final ErrorConstant PHONE_ALREADY_EXISTS = new ErrorConstant(100015, "该手机号码已经绑定过其它微信");
+    public static final ErrorConstant TICKET_ID_NOT_NULL = new ErrorConstant(100016, "验票ID不能为空");
+    public static final ErrorConstant TICKET_VERIFY_RESULT_NOT_NULL = new ErrorConstant(100017, "验证结果不能为空");
+    public static final ErrorConstant TICKET_VERIFY_RESULT_FALSE_ROASON_NULL = new ErrorConstant(100018, "验证结果为假时,原因不能为空");
+    public static final ErrorConstant FEEDBACK_CONTENT_NOT_NULL = new ErrorConstant(100019, "反馈内容不能为空");
+    public static final ErrorConstant ID_NOT_NULL = new ErrorConstant(100020, "ID不能为空");
+    public static final ErrorConstant FEEDBACK_NOT_NULL = new ErrorConstant(100021, "回复内容不能为空");
  
     
 }

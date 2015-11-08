@@ -2,12 +2,14 @@ package com.core.liemao.domain;
 
 import java.sql.Timestamp;
 
+import com.core.liemao.domain.request.Paging;
+
 /** 
  * @author 作者 : chenxuan
  * @version 创建时间：2015年10月28日 下午9:47:22 
  * 类说明 
  */
-public class Ticket {
+public class Ticket extends Paging{
 	private Integer id;
 	private String frontImg;
 	private String backImg;
@@ -16,6 +18,7 @@ public class Ticket {
 	private Integer verifyResult;
 	private String reason;
 	private Timestamp verifyTime;
+	private Integer isRead;
 	/**
 	 * @return the id
 	 */
@@ -111,6 +114,18 @@ public class Ticket {
 	 */
 	public void setVerifyTime(Timestamp verifyTime) {
 		this.verifyTime = verifyTime;
+	}
+	/**
+	 * @return the isRead
+	 */
+	public Integer getIsRead() {
+		return isRead;
+	}
+	/**
+	 * @param isRead the isRead to set
+	 */
+	public void setIsRead(Integer isRead) {
+		this.isRead = isRead;
 	}
 	
 	
