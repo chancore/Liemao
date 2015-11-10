@@ -105,9 +105,8 @@ public class StringEx {
 	 * @return
 	 */
 	public static boolean verificationPhone(String phoneNum){
-		Pattern pattern = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[01236789]))\\d{8}$");
+		Pattern pattern = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0123456789]))\\d{8}$");
 	    Matcher matcher = pattern.matcher(phoneNum);
-	    System.out.println(matcher.matches());
 	    return matcher.matches() ;
 	}
 	

@@ -44,5 +44,8 @@ public interface TicketService {
 	 */
 	public Ticket detail(Ticket ticketReq) throws Exception;
 	
+	
+	public List<TicketReq> verifyListForView(TicketReq ticketReq);
+	
 
 }

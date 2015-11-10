@@ -13,6 +13,8 @@ public class TicketReq extends Ticket{
 
 	private MultipartFile frontImgFile;
 	private MultipartFile backImgFile;
+	private String phone;
+	
 	/**
 	 * @return the frontImgFile
 	 */
@@ -36,6 +38,18 @@ public class TicketReq extends Ticket{
 	 */
 	public void setBackImgFile(MultipartFile backImgFile) {
 		this.backImgFile = backImgFile;
+	}
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 }

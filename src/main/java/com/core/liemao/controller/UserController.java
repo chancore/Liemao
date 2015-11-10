@@ -1,5 +1,12 @@
 package com.core.liemao.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -7,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import sun.security.provider.MD5;
 
 import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
@@ -175,6 +185,23 @@ public class UserController {
 	public Result feedbackMarkRead(Feedback feedback) throws Exception{
 		userService.feedbackMarkRead(feedback);
 		return new Result();
+	}
+	/**
+	 * 系统用户登录
+	 * @param Feedback
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/sys_login")
+	public String sysLogin(User user,Map<String, Object> model,HttpSession httpSession) throws Exception{
+		String result = userService.sysLogin(user);
+		if(null != result){
+			model.put("errorMsg", result);
+			return "index";
+		}
+		httpSession.setAttribute("user", user);
+		httpSession.setAttribute("imgBasePath", "http://114.215.172.198/");
+		return "redirect:/ticket/manager";
 	}
 
 }

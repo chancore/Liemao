@@ -1,5 +1,8 @@
 package com.core.liemao.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,4 +94,13 @@ public class TicketController {
 		result.setDomain(ticketService.detail(ticketReq));
 		return result;
 	}
+	
+	@RequestMapping("/manager")
+	public String ticketManager(Map<String, Object> model,TicketReq ticketReq) throws Exception{
+		model.put("ticketReq", ticketReq);
+		List<TicketReq> list = ticketService.verifyListForView(ticketReq);
+		model.put("list", list);
+		return "frame";
+	}
+	
 }

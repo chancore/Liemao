@@ -20,4 +20,27 @@ public class WelcomeController {
 		model.put("time", new Date());
 		return "index";
 	}
+	/**
+	 * 最新利率链接
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/zxlv")
+	public String zxlv(Map<String, Object> model){
+		model.put("time", new Date());
+		return "zxlv";
+	}
+	
+	/**
+	 * 关于我们
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/gywm")
+	public String gywm(Map<String, Object> model){
+		model.put("time", new Date());
+		return "gywm";
+	}
+	
+	
 }

@@ -81,4 +81,9 @@ public interface UserService {
 	 * @return
 	 */
 	public void feedbackMarkRead(Feedback feedback);
+	/**
+	 * 系统用户登录
+	 * @param user
+	 */
+	public String sysLogin(User user);
 }

@@ -46,6 +46,7 @@ dependencies {
 	compile 'org.apache.commons:commons-lang3:3.4'
 	compile 'mysql:mysql-connector-java:' + mysqlConnectorVersion
 	compile 'commons-io:commons-io:2.4'
+	compile 'javax.servlet:jstl:1.2'
 	//providedCompile 'org.apache.tomcat.embed:tomcat-embed-jasper:7.0.30'
 	//compile 'org.apache.tomcat.embed:tomcat-embed-jasper:7.0.30'
 	//compile 'javax.servlet:servlet-api:3.0-alpha-1'

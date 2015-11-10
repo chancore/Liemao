@@ -96,4 +96,10 @@ public class TicketServiceImpl implements TicketService{
 		}
 		return ticketMapper.detail(ticketReq);
 	}
+	
+	@Override
+	public List<TicketReq> verifyListForView(TicketReq ticketReq)  {
+		
+		return ticketMapper.verifyListForView(ticketReq);
+	}
 }

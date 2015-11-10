@@ -41,7 +41,7 @@ public interface UserMapper {
 	 * @param user
 	 * @return
 	 */
-	@Insert("insert into t_user(phone,weixin_id) value(#{phone},#{weixinId})")
+	@Insert("insert into t_user(phone,weixin_id,last_modify_time) value(#{phone},#{weixinId},current_timestamp())")
 	@Options(useGeneratedKeys=true)
 	public Integer registerUser(User user);
 	
@@ -125,4 +125,11 @@ public interface UserMapper {
 	 */
 	@Update("update t_feedback set is_read = 1 where id = #{id}")
 	public Integer feedbackMarkRead(Feedback feedback);
+	/**
+	 * 系统用户登录
+	 * @param user
+	 * @return
+	 */
+	@Select("select * from t_sys_user where user_name = #{userName} and pwd = #{pwd}")
+	public User getSysUser(User user);
 }

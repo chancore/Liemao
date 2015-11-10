@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+
 import com.core.liemao.domain.Ticket;
+import com.core.liemao.domain.request.TicketReq;
 import com.core.liemao.persistence.provider.TicketProvider;
 
 /** 
@@ -26,6 +28,9 @@ public interface TicketMapper {
 	
 	@SelectProvider(type=TicketProvider.class,method="verifyList")
 	public List<Ticket> verifyList(Ticket ticket);
+	
+	@SelectProvider(type=TicketProvider.class,method="verifyListForView")
+	public List<TicketReq> verifyListForView(TicketReq ticket);
 	/**
 	 * 标记为已读
 	 * @param ticket

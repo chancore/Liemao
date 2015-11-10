@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 类说明 
  */
 @Configuration
-@EnableWebMvc
 public class ControllerConfig extends WebMvcConfigurerAdapter{
 	
 	@Override

@@ -17,6 +17,7 @@ import com.core.liemao.domain.exception.ErrorConstant;
 import com.core.liemao.exception.ServerException;
 import com.core.liemao.persistence.UserMapper;
 import com.core.liemao.service.UserService;
+import com.core.liemao.utils.EncryptionByMD5;
 import com.core.liemao.utils.StringEx;
 import com.core.liemao.utils.YunpianSmsUtil;
 
@@ -190,5 +191,21 @@ public class UserServiceImpl implements UserService{
 		}
 		userMapper.feedbackMarkRead(feedback);
 	}
+
+	@Override
+	public String sysLogin(User user) {
+		String errotMsg = "用户名或密码错误";
+		if(null != user.getPwd()){
+			String pwd = EncryptionByMD5.getMD5(user.getPwd().getBytes());
+			user.setPwd(pwd);
+		}
+		User sysUser = userMapper.getSysUser(user);
+		if(null == sysUser){
+			return "用户名或密码错误";
+		}
+		return null;
+	}
+	
+	
 	
 }
