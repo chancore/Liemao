@@ -205,7 +205,10 @@ public class UserServiceImpl implements UserService{
 		}
 		return null;
 	}
-	
-	
-	
+
+	@Override
+	public List<Feedback> feedbackManager(Feedback feedback) {
+		
+		return userMapper.feedbackManager(feedback);
+	}
 }

@@ -2,6 +2,7 @@ package com.core.liemao.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import sun.security.provider.MD5;
 import com.core.liemao.domain.Feedback;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
+import com.core.liemao.domain.request.TicketReq;
 import com.core.liemao.domain.response.Result;
 import com.core.liemao.domain.response.ResultList;
 import com.core.liemao.domain.response.ResultObject;
@@ -201,7 +203,15 @@ public class UserController {
 		}
 		httpSession.setAttribute("user", user);
 		httpSession.setAttribute("imgBasePath", "http://114.215.172.198/");
-		return "redirect:/ticket/manager";
+		return "redirect:/ticket/manager?verifyResult=0";
+	}
+	
+	@RequestMapping("/feedback/manager")
+	public String feedbackManager(Map<String, Object> model,Feedback feedback,HttpSession session) throws Exception{
+		model.put("feedback", feedback);
+		List<Feedback> list = userService.feedbackManager(feedback);
+		model.put("list", list);
+		return "feedbackManager";
 	}
 
 }

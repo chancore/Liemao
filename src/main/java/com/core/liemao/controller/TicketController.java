@@ -3,6 +3,8 @@ package com.core.liemao.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,10 +98,11 @@ public class TicketController {
 	}
 	
 	@RequestMapping("/manager")
-	public String ticketManager(Map<String, Object> model,TicketReq ticketReq) throws Exception{
+	public String ticketManager(Map<String, Object> model,TicketReq ticketReq,HttpSession session) throws Exception{
 		model.put("ticketReq", ticketReq);
 		List<TicketReq> list = ticketService.verifyListForView(ticketReq);
 		model.put("list", list);
+		session.setAttribute("fileBasePath", "http://114.215.172.198/");
 		return "frame";
 	}
 	

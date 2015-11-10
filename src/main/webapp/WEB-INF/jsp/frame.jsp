@@ -39,9 +39,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<form action="ticket/manager" method="POST" id="ticketManagerForm">
         	<div class="col-md-4">
 	        	<select class="form-control" name="verifyResult">
-	        		<option value="0" <c:if test="${ticketReq.verifyResult == 1}">selected</c:if> >未验证</option>
-	        		<option value="1" <c:if test="${ticketReq.verifyResult == 2}">selected</c:if>>真</option>
-	        		<option value="2" <c:if test="${ticketReq.verifyResult == 3}">selected</c:if>>假</option>
+	        		<option value="0" <c:if test="${ticketReq.verifyResult == 0}">selected</c:if> >未验证</option>
+	        		<option value="1" <c:if test="${ticketReq.verifyResult == 1}">selected</c:if>>真</option>
+	        		<option value="2" <c:if test="${ticketReq.verifyResult == 2}">selected</c:if>>假</option>
 	        	</select>
         	</div>
         	<div class="col-md-4">
@@ -70,10 +70,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <td>${i.id }</td>
                   <td>${i.createTime }</td>
                   <td>${i.phone }</td>
-                  <td><img src="${i.frontImg }" style="max-width:100px;max-height:100px;"/></td>
-                  <td><img src="${i.backImg }" style="max-width:100px;max-height:100px;"/></td>
                   <td>
-                  	<button type="button" class="btn btn-primary" onclick="submit_form()">验证通过</button>
+	                  <a href="javascript:void(0);" onclick="openWin('${fileBasePath }${i.frontImg }')">正面图片</a> 
+	                  <!--<img src="${fileBasePath }${i.frontImg }" onclick="" style="max-width:100px;max-height:100px;"/>  -->
+                  </td>
+                  <td>
+                  	<a href="javascript:void(0);" onclick="openWin('${fileBasePath }${i.backImg }')">反面图片</a> 
+                  	<!-- <img src="${fileBasePath }${i.backImg }" style="max-width:100px;max-height:100px;"/> -->
+                  </td>
+                  <td>
+                  	<button type="button" class="btn btn-primary" onclick="pass(${i.id})">通过</button>
+                  	<button type="button" class="btn btn-primary" onclick="fail(${i.id})">不通过</button>
                   </td>
                 </tr>
                 </c:forEach>
@@ -83,7 +90,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
       </div>
     </div>
-    <!-- Bootstrap core JavaScript
+	<!-- Modal -->  
+	<!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -91,9 +99,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="resources/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://files.cnblogs.com/rubylouvre/bootstrap-modal.js"></script>
     <script type="text/javascript">
     function submit_form(){
     	$("#ticketManagerForm").submit();
+    }
+    function pass(id){
+    	$.post("ticket/verify_ticket",{id:id,verifyResult:1},function(result){
+    		if(result.status == 0){
+    			alert("验证成功");
+    			submit_form();
+    		}
+    		
+    	});
+    }
+    function fail(id){
+    	$('#myModal').modal('show');
+    }
+    function openWin(url){
+    	window.open(url,'newwindow','height=auto,width=auto,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no') ;
     }
     </script>
   </body>

@@ -37,15 +37,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter{
         converters.add(converter);
         super.configureMessageConverters(converters);
     }
-	/**
-	@Bean
-    public InternalResourceViewResolver setupViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
-        resolver.setSuffix(".jsp");
-        resolver.setViewClass(JstlView.class);
-        return resolver;
-    }**/
 	
 	@Bean
     public InternalResourceViewResolver viewResolver() {

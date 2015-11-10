@@ -132,4 +132,7 @@ public interface UserMapper {
 	 */
 	@Select("select * from t_sys_user where user_name = #{userName} and pwd = #{pwd}")
 	public User getSysUser(User user);
+	
+	@Select("select * from t_feedback")
+	public List<Feedback> feedbackManager(Feedback feedback);
 }

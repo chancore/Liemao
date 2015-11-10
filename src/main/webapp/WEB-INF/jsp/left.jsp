@@ -5,8 +5,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>  
 <div class="col-sm-3 col-md-2 sidebar">
   <ul class="nav nav-sidebar">
-    <li class="active"><a href="ticket/manager">检验管理 <span class="sr-only">(current)</span></a></li>
-    <li><a href="#">咨询管理 </a></li>
+    <li class="active"><a href="ticket/manager?verifyResult=0">检验管理 <span class="sr-only">(current)</span></a></li>
+    <li><a href="user/feedback/manager">咨询管理 </a></li>
     <li><a href="#">信息发布 </a></li>
     <li><a href="#">会员管理 </a></li>
   </ul>
@@ -28,6 +28,5 @@ $(document).ready(function(){
 });
 function sendPost(url){
 	$("#frame_site").attr("src",url);
-	
 }
 </script>

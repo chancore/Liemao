@@ -86,4 +86,10 @@ public interface UserService {
 	 * @param user
 	 */
 	public String sysLogin(User user);
+	/**
+	 * 咨询管理
+	 * @param feedback
+	 * @return
+	 */
+	public List<Feedback> feedbackManager(Feedback feedback);
 }
