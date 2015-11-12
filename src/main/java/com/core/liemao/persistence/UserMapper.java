@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.core.liemao.domain.Feedback;
+import com.core.liemao.domain.News;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
@@ -135,4 +136,17 @@ public interface UserMapper {
 	
 	@Select("select * from t_feedback")
 	public List<Feedback> feedbackManager(Feedback feedback);
+	
+	
+	@SelectProvider(type=UserProvider.class,method="userManager")
+	public List<User> userManager(User user);
+	
+	@Select("select id,title,content,date_format(create_time,'%Y-%m-%d') create_time from t_news where id = #{id}")
+	public News getNewsDetail(News news);
+	
+	@Select("update t_news  set title = #{title},content=#{content},create_time = current_timestamp() where id = #{id}")
+	public News modifyNews(News news);
+	
+	@Select("insert into t_news_history (title,content,create_time,type) select title,content,create_time,type from t_news where id = #{id}")
+	public Integer addNewsHistory(News news);
 }

@@ -60,6 +60,18 @@ public class UserProvider {
     	}
     	return buffer.toString();
     }
+    
+    public String userManager(User user){
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("select * from t_user where 1 = 1");
+    	if(user.getPhone() != null && !user.getPhone().trim().isEmpty()){
+    		buffer.append(" and phone = #{phone}");
+    	}
+    	if(user.getStart() != null){
+    		buffer.append(" limit #{start},#{limit}");
+    	}
+    	return buffer.toString();
+    }
 	
 
 }

@@ -3,8 +3,12 @@ package com.core.liemao.controller;
 import java.util.Date;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.core.liemao.domain.News;
+import com.core.liemao.service.UserService;
 
 
 /** 
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class WelcomeController {
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/")
 	public String index(Map<String, Object> model){
@@ -27,7 +34,9 @@ public class WelcomeController {
 	 */
 	@RequestMapping("/zxlv")
 	public String zxlv(Map<String, Object> model){
-		model.put("time", new Date());
+		News news = new News();
+		news.setId(1);
+		model.put("news", userService.getNewsDetail(news));
 		return "zxlv";
 	}
 	
@@ -38,7 +47,9 @@ public class WelcomeController {
 	 */
 	@RequestMapping("/gywm")
 	public String gywm(Map<String, Object> model){
-		model.put("time", new Date());
+		News news = new News();
+		news.setId(2);
+		model.put("news", userService.getNewsDetail(news));
 		return "gywm";
 	}
 	

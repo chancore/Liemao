@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.core.liemao.domain.Feedback;
+import com.core.liemao.domain.News;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
@@ -210,5 +211,24 @@ public class UserServiceImpl implements UserService{
 	public List<Feedback> feedbackManager(Feedback feedback) {
 		
 		return userMapper.feedbackManager(feedback);
+	}
+
+	@Override
+	public List<User> userManager(User user) {
+		
+		return userMapper.userManager(user);
+	}
+
+	@Override
+	public News getNewsDetail(News news) {
+		
+		return userMapper.getNewsDetail(news);
+	}
+	
+	@Override
+	public News modifyNews(News news) {
+		userMapper.modifyNews(news);
+		userMapper.addNewsHistory(news);
+		return news;
 	}
 }

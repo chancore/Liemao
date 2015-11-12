@@ -2,12 +2,14 @@ package com.core.liemao.domain;
 
 import java.sql.Timestamp;
 
+import com.core.liemao.domain.request.Paging;
+
 /** 
  * @author 作者 : chenxuan
  * @version 创建时间：2015年10月20日 下午9:51:47 
  * 类说明 
  */
-public class User {
+public class User extends Paging{
 	
 	private Integer id;
 	private String phone;

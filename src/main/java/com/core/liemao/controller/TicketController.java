@@ -102,6 +102,7 @@ public class TicketController {
 		model.put("ticketReq", ticketReq);
 		List<TicketReq> list = ticketService.verifyListForView(ticketReq);
 		model.put("list", list);
+		model.put("url", 1);
 		session.setAttribute("fileBasePath", "http://114.215.172.198/");
 		return "frame";
 	}

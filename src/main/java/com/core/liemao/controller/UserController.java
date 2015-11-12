@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sun.security.provider.MD5;
 
 import com.core.liemao.domain.Feedback;
+import com.core.liemao.domain.News;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.request.TicketReq;
@@ -211,7 +212,45 @@ public class UserController {
 		model.put("feedback", feedback);
 		List<Feedback> list = userService.feedbackManager(feedback);
 		model.put("list", list);
+		model.put("url", 2);
 		return "feedbackManager";
+	}
+	
+	@RequestMapping("/manager")
+	public String userManager(Map<String, Object> model,User user) throws Exception{
+		model.put("user", user);
+		List<User> list = userService.userManager(user);
+		model.put("list", list);
+		model.put("url", 4);
+		return "userManager";
+	}
+	
+	@RequestMapping("/zxlvManager")
+	public String zxlvManager(Map<String, Object> model,News news) throws Exception{
+		news.setId(1);
+		model.put("url", 5);
+		model.put("news", userService.getNewsDetail(news));
+		return "zxlvManager";
+	}
+	
+	@RequestMapping("/gywmManager")
+	public String gywmManager(Map<String, Object> model,News news) throws Exception{
+		news.setId(2);
+		model.put("news", userService.getNewsDetail(news));
+		model.put("url", 6);
+		return "zxlvManager";
+	}
+	
+	@RequestMapping("/modifyNews")
+	public String modifyNews(Map<String, Object> model,News news){
+		userService.modifyNews(news);
+		model.put("news", news);
+		if(news.getId() == 1){
+			model.put("url", 5);
+		}else if(news.getId() == 2){
+			model.put("url", 6);
+		}
+		return "zxlvManager";
 	}
 
 }

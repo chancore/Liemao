@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <td>${i.id }</td>
                   <td>${i.title }</td>
                   <td style="max-width:250px;">${i.content }</td>
-                  <td style="max_width:250px;height:50px;">
+                  <td style="max_width:300px;height:50px;">
                   <textarea id="tx_${i.id }" style="width:100%;height:100%;">${i.feedback }</textarea>
 	                  
                   </td>

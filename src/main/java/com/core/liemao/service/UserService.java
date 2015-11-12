@@ -3,6 +3,7 @@ package com.core.liemao.service;
 import java.util.List;
 
 import com.core.liemao.domain.Feedback;
+import com.core.liemao.domain.News;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 
@@ -92,4 +93,14 @@ public interface UserService {
 	 * @return
 	 */
 	public List<Feedback> feedbackManager(Feedback feedback);
+	/**
+	 * 用户管理
+	 * @param user
+	 * @return
+	 */
+	public List<User> userManager(User user);
+	
+	public News getNewsDetail(News news);
+	public News modifyNews(News news);
+	
 }
