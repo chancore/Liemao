@@ -75,6 +75,7 @@ public class ErrorConstant {
     public static final ErrorConstant FEEDBACK_CONTENT_NOT_NULL = new ErrorConstant(100019, "反馈内容不能为空");
     public static final ErrorConstant ID_NOT_NULL = new ErrorConstant(100020, "ID不能为空");
     public static final ErrorConstant FEEDBACK_NOT_NULL = new ErrorConstant(100021, "回复内容不能为空");
+    public static final ErrorConstant MESSAGE_NOT_NULL = new ErrorConstant(100022, "消息内容不能为空");
  
     
 }

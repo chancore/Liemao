@@ -241,6 +241,12 @@ public class UserController {
 		return "zxlvManager";
 	}
 	
+	@RequestMapping("/sendMsgManager")
+	public String sendMsgManager(Map<String, Object> model,News news) throws Exception{
+		model.put("url", 7);
+		return "sendMsgManager";
+	}
+	
 	@RequestMapping("/modifyNews")
 	public String modifyNews(Map<String, Object> model,News news){
 		userService.modifyNews(news);

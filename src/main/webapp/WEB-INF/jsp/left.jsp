@@ -15,4 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <li name="menu_li" <c:if test="${url==5 }">class="active"</c:if>><a href="user/zxlvManager">最新利率</a></li>
     <li name="menu_li" <c:if test="${url==6 }">class="active"</c:if>><a href="user/gywmManager">关于我们</a></li>
   </ul>
+  <ul class="nav nav-sidebar">
+    <li name="menu_li" <c:if test="${url==7 }">class="active"</c:if>><a href="user/sendMsgManager">发送消息</a></li>
+  </ul>
 </div>

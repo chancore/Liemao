@@ -14,6 +14,7 @@ import com.core.liemao.domain.News;
 import com.core.liemao.domain.Region;
 import com.core.liemao.domain.User;
 import com.core.liemao.domain.VerificationCode;
+import com.core.liemao.domain.WeixinAccessToken;
 import com.core.liemao.persistence.provider.TicketProvider;
 import com.core.liemao.persistence.provider.UserProvider;
 
@@ -149,4 +150,8 @@ public interface UserMapper {
 	
 	@Select("insert into t_news_history (title,content,create_time,type) select title,content,create_time,type from t_news where id = #{id}")
 	public Integer addNewsHistory(News news);
+	
+	@Select("select b.* from t_ticket a ,t_user b where a.id = #{id} and a.user_id = b.id")
+	public User getUserByTicketId(Integer id);
+	
 }

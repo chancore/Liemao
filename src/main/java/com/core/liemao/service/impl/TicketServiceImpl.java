@@ -5,12 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.core.liemao.domain.Ticket;
+import com.core.liemao.domain.User;
 import com.core.liemao.domain.exception.ErrorConstant;
 import com.core.liemao.domain.request.TicketReq;
 import com.core.liemao.exception.ServerException;
 import com.core.liemao.persistence.TicketMapper;
+import com.core.liemao.persistence.UserMapper;
 import com.core.liemao.service.TicketService;
+import com.core.liemao.service.WeixinService;
 import com.core.liemao.utils.FileUtils;
 
 /** 
@@ -25,6 +29,10 @@ public class TicketServiceImpl implements TicketService{
 	private FileUtils fileUtils;
 	@Autowired
 	private TicketMapper ticketMapper;
+	@Autowired
+	private WeixinService weixinService;
+	@Autowired
+	private UserMapper userMapper;
 	
 	@Override
 	public Ticket updateTicket(TicketReq ticketReq) throws Exception{
@@ -70,9 +78,18 @@ public class TicketServiceImpl implements TicketService{
 		if(ticketReq.getVerifyResult() == 2 && ticketReq.getReason() == null){
 			throw new ServerException(ErrorConstant.TICKET_VERIFY_RESULT_FALSE_ROASON_NULL.getErrorCode(), ErrorConstant.TICKET_VERIFY_RESULT_FALSE_ROASON_NULL.getErrorMessageToUser());
 		}
-		
 		ticketMapper.verifyTicket(ticketReq);
-		
+		User user = userMapper.getUserByTicketId(ticketReq.getId());
+		String openId = user.getWeixinId();
+		//通过
+		if(ticketReq.getVerifyResult() == 1){
+			
+			weixinService.sendApproved(openId);
+		}
+		//未通过
+		if(ticketReq.getVerifyResult() == 2){
+			weixinService.sendUnapprove(openId, ticketReq.getReason());
+		}
 		return ticketReq;
 	}
 

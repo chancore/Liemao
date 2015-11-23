@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="resources/css/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="resources/css/lanrenzhijia.css">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -61,6 +62,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <th>手机号码</th>
                   <th>正面</th>
                   <th>背面</th>
+                  <th>状态</th>
+                  <c:if test="${ticketReq.verifyResult == 2 }">
+                  <th>原因</th>
+                  </c:if>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -79,8 +84,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   	<!-- <img src="${fileBasePath }${i.backImg }" style="max-width:100px;max-height:100px;"/> -->
                   </td>
                   <td>
+                  	<c:if test="${i.verifyResult ==0}">未验证</c:if>
+                  	<c:if test="${i.verifyResult ==1}">真</c:if>
+                  	<c:if test="${i.verifyResult ==2}">假</c:if>
+                  </td>
+                  <c:if test="${ticketReq.verifyResult == 2 }">
+                  <td>
+                  ${i.reason }
+                  </td>
+                  </c:if>
+                  <td>
                   	<button type="button" class="btn btn-primary" onclick="pass(${i.id})">通过</button>
-                  	<button type="button" class="btn btn-primary" onclick="fail(${i.id})">不通过</button>
+                  	<button type="button" class="btn btn-primary" onclick="showSlide(${i.id})">不通过</button>
                   </td>
                 </tr>
                 </c:forEach>
@@ -90,6 +105,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
       </div>
     </div>
+
+	<div class="theme-popover">
+		<div class="theme-poptit">
+			<a href="javascript:void(0);" onclick="close_win()" title="关闭" class="close">关闭</a>
+			<h3>验证不通过</h3>
+		</div>
+		<div class="theme-popbod dform">
+			<ol>
+				<li><strong>原因:</strong>
+					<textarea id="reason" rows="8" cols="60"></textarea>
+				</li>
+				<li><input id="theme_ticket_id" value="" type="hidden"/></li>
+				<li><br /><input class="btn btn-primary" type="button" onclick="fail()" value=" 提 交 "/></li>
+			</ol>
+		</div>
+	</div>
+	<div class="theme-popover-mask"></div>
 	<!-- Modal -->  
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -105,16 +137,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	$("#ticketManagerForm").submit();
     }
     function pass(id){
-    	$.post("ticket/verify_ticket",{id:id,verifyResult:1},function(result){
-    		if(result.status == 0){
-    			alert("验证成功");
-    			submit_form();
-    		}
-    		
-    	});
+    	if(confirm("确认验证通过吗?")){
+    		$.post("ticket/verify_ticket",{id:id,verifyResult:1},function(result){
+        		if(result.status == 0){
+        			alert("验证成功");
+        			submit_form();
+        		}
+        		
+        	});
+    	}
     }
-    function fail(id){
-    	$('#myModal').modal('show');
+    function fail(){
+    	var reason = $("#reason").val();
+    	var id = $("#theme_ticket_id").val();
+   		$.post("ticket/verify_ticket",{id:id,verifyResult:2,reason:reason},function(result){
+       		if(result.status == 0){
+       			alert("操作成功");
+       			submit_form();
+       		}
+       	});
+    }
+    function showSlide(id){
+    	var t_id = $("#theme_ticket_id").val();
+    	if(id != t_id){
+    		$("#reason").val("");
+    	}
+   		$('.theme-popover-mask').fadeIn(100);
+   		$('.theme-popover').slideDown(200);
+   		$("#theme_ticket_id").val(id);
+    }
+    function close_win(){
+   		$('.theme-popover-mask').fadeOut(100);
+   		$('.theme-popover').slideUp(200);
     }
     function openWin(url){
     	window.open(url,'newwindow','height=auto,width=auto,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no') ;
